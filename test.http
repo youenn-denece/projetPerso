@@ -1,1 +1,24 @@
-GET http://localhost:5000/api/accounts/benoit
+GET http://localhost:5000/api/accounts/maud
+### 
+GET http://localhost:5000/api/accounts/Damien
+###
+POST http://localhost:5000/api/accounts
+Content-Type: application/json
+
+{
+    "user": "maud", 
+    "age": 19,
+    "sex": "féminin",
+    "hobbie": ["danse, cuisine"],
+    "address": "12, rue de Nemours",
+    "city": "Rennes"
+}
+###
+PUT http://localhost:5000/api/accounts/Damien
+Content-Type: application/json
+
+{
+    "address": "82 rue Ginguené"
+}
+###
+DELETE http://localhost:5000/api/accounts/Benoit
