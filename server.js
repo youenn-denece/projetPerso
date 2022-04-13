@@ -17,7 +17,9 @@ app.options('*', cors());
 // before Database
 const db = {
     Damien: {
-        user: 'damien',
+        id: 'USR-0000',
+        firstName: 'damien',
+        lastName: 'Toto',
         age: 25,
         sex: 'masculin',
         hobbie: [],
@@ -25,7 +27,9 @@ const db = {
         city: 'Rennes'
     },
     Josiane: {
-        user: 'josiane',
+        id: 'USR-0001',
+        firstName: 'josiane',
+        lastName: 'Titi',
         age: 12,
         sex: 'féminin',
         hobbie: [],
@@ -37,17 +41,17 @@ const db = {
 // configure route
 const router = express.Router();
 router.get('/', (req, res) => {
-    res.send(`${package.name} - v${package.version}`);
+    res.send(`${package.id} - v${package.version}`);
 });
 
-router.get('/accounts/:user', (req, res) => {
-    const user = req.params.user;
-    const account = db[user];
+router.get('/accounts/:id', (req, res) => {
+    const id = req.params.id;
+    const account = db[id];
 
     if (!account) {
         return res
             .statusCode(404)
-            .json({ error: 'User does not exist' });
+            .json({ error: 'this first name does not exist' });
     }
 
     return res.json(account);
@@ -56,12 +60,12 @@ router.get('/accounts/:user', (req, res) => {
 router.post('/accounts', (req, res) => {
     const body = req.body;
 
-    if (!body.user || !body.address) {
+    if (!body.firstName || !body.lastName || !body.address) {
         return res
             .status(400)
-            .json({ error: 'name and address are required' });
+            .json({ error: 'Address, first & last names are required' });
     }
-    if (db[body.user]) {
+    if (db[body.lastName]) {
         return res
             .status(400)
             .json({ error: 'Account already exists' });
@@ -76,14 +80,16 @@ router.post('/accounts', (req, res) => {
         }
     }
     const account = {
-        user: body.user,
+        id: body.id,
+        firstName: body.firstName,
+        lastName: body.lastName,
         age: body.age || 0,
         sex: body.sex,
         hobbie: body.hobbie,
         address: body.address,
         city: body.city
     }
-    db[account.user] = account;
+    db[account.id] = account;
 
     return res
         .status(201)
@@ -91,17 +97,17 @@ router.post('/accounts', (req, res) => {
 
 });
 
-router.put('/accounts/:user', (req, res) => {
+router.put('/accounts/:id', (req, res) => {
     const body = req.body;
-    const user = req.params.user;
-    const account = db[user];
+    const id = req.params.id;
+    const account = db[id];
 
     if (!account) {
         return res
             .status(404)
-            .json({ error: 'User not found' });
+            .json({ error: 'id not found' });
     }
-    if (body.user) {
+    if (body.id) {
         return res
             .status(400)
             .json({ error: 'Only hobbies, address and city can be edited' });
@@ -119,17 +125,17 @@ router.put('/accounts/:user', (req, res) => {
     return res.json(account);
 });
 
-router.delete('/accounts/:user', (req, res) => {
-    const user = req.params.user;
-    const account = db[user];
+router.delete('/accounts/:id', (req, res) => {
+    const id = req.params.id;
+    const account = db[id];
 
     if (!account) {
         return res
             .status(404)
-            .json({ error: 'User not found' });
+            .json({ error: 'id not found' });
     }
 
-    delete db[user];
+    delete db[id];
 
     return res.sendStatus(204);
 

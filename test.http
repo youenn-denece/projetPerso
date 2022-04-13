@@ -1,4 +1,4 @@
-GET http://localhost:5000/api/accounts/maud
+GET http://localhost:5000/api/accounts/USR-0003
 ### 
 GET http://localhost:5000/api/accounts/Damien
 ###
@@ -6,7 +6,9 @@ POST http://localhost:5000/api/accounts
 Content-Type: application/json
 
 {
-    "user": "maud", 
+    "id": "USR-0003",
+    "firstName": "maud", 
+    "lastName": "Tata",
     "age": 19,
     "sex": "féminin",
     "hobbie": ["danse, cuisine"],
@@ -18,7 +20,7 @@ PUT http://localhost:5000/api/accounts/Damien
 Content-Type: application/json
 
 {
-    "address": "82 rue Ginguené"
+    "address": "81 Rue Ange Blaize"
 }
 ###
-DELETE http://localhost:5000/api/accounts/Benoit
+DELETE http://localhost:5000/api/accounts/USR-0003
