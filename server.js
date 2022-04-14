@@ -1,20 +1,23 @@
 const express = require('express');
 const cors = require('cors');
+require('./models/dbConfigs');
 const bodyParser = require('body-parser');
 const package = require('./package.json');
+const usersRoutes = require('./routes/usersController');
 
 const port = process.env.PORT || 5000;
 const apiRoot = '/api';
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/', usersRoutes);
+/* app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors({
     origin: /http:\/\/localhost/
 }));
-app.options('*', cors());
+app.options('*', cors()); */
 
-// before Database
+/* // before Database
 const db = {
     Damien: {
         id: 'USR-0000',
@@ -36,10 +39,10 @@ const db = {
         address: '28 rue de Rennes',
         city: 'Paris'
     }
-};
+}; */ 
 
 // configure route
-const router = express.Router();
+/* const router = express.Router();
 router.get('/', (req, res) => {
     res.send(`${package.id} - v${package.version}`);
 });
@@ -139,10 +142,7 @@ router.delete('/accounts/:id', (req, res) => {
 
     return res.sendStatus(204);
 
-});
-
-// register route
-app.use(apiRoot, router);
+}); */
 
 app.listen(port, () => {
     console.log('Server is UP !')

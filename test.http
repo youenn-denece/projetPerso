@@ -16,7 +16,7 @@ Content-Type: application/json
     "city": "Rennes"
 }
 ###
-PUT http://localhost:5000/api/accounts/Damien
+PUT http://localhost:5000/api/accounts/USR-0003
 Content-Type: application/json
 
 {
