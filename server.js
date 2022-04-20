@@ -4,14 +4,18 @@ require('./models/dbConfigs');
 const bodyParser = require('body-parser');
 const package = require('./package.json');
 const usersRoutes = require('./routes/usersController');
+const mongoose = require('mongoose');
 
 const port = process.env.PORT || 5000;
-const apiRoot = '/api';
+// const apiRoot = '/api';
 
 const app = express();
-app.use('/', usersRoutes);
-/* app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/users', usersRoutes);
 app.use(bodyParser.json());
+app.use(cors);
+
+
+/* app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
     origin: /http:\/\/localhost/
 }));

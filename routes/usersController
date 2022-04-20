@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { usersModel, UsersModel } = require('../models/usersModel');
+const ObjectID = require('mongoose').Types.ObjectId;
 
+const { UsersModel } = require('../models/usersModel');
 
 router.get('/', (req, res) => {
     UsersModel.find((err, docs) => {
@@ -13,101 +14,65 @@ router.get('/', (req, res) => {
     })
 });
 
-/* router.get('/accounts/:id', (req, res) => {
-    const id = req.params.id;
-    const account = db[id];
-
-    if (!account) {
-        return res
-            .statusCode(404)
-            .json({ error: 'this first name does not exist' });
-    }
-
-    return res.json(account);
-});
-
-router.post('/accounts', (req, res) => {
-    const body = req.body;
-
-    if (!body.firstName || !body.lastName || !body.address) {
-        return res
-            .status(400)
-            .json({ error: 'Address, first & last names are required' });
-    }
-    if (db[body.lastName]) {
-        return res
-            .status(400)
-            .json({ error: 'Account already exists' });
-    }
-    let age = body.age;
-    if (age && typeof (age) !== 'number') {
-        age = parseFloat(age);
-        if (Number.isNaN(age)) {
-            return res
-                .status(400)
-                .json({ error: 'age must be a number' });
-        }
-    }
-    const account = {
-        id: body.id,
+router.post('/', (req, res) => {
+    const newRecord = new UsersModel({
+        address: req.body.address,
+        age: req.body.age,
+        city: req.body.city,
         firstName: body.firstName,
-        lastName: body.lastName,
-        age: body.age || 0,
-        sex: body.sex,
-        hobbie: body.hobbie,
-        address: body.address,
-        city: body.city
-    }
-    db[account.id] = account;
-
-    return res
-        .status(201)
-        .json(account);
-
+        hobbie: req.body.hobbie,
+        lastName: req.body.lastName,
+        sex: req.body.sex,
+    });
+    newRecord.save((err, docs) => {
+        if (!err) {
+            res.send(docs);
+        } else {
+            console.log("Error on user creation : " + err);
+        }
+    })
 });
 
-router.put('/accounts/:id', (req, res) => {
-    const body = req.body;
-    const id = req.params.id;
-    const account = db[id];
-
-    if (!account) {
-        return res
-            .status(404)
-            .json({ error: 'id not found' });
-    }
-    if (body.id) {
-        return res
-            .status(400)
-            .json({ error: 'Only hobbies, address and city can be edited' });
-    }
-    // TODO request to BDD (CRUD)
-    if (body.hobbie) {
-        account.hobbie = body.hobbie; 
-    }
-    if (body.address) {
-        account.address = body.address;
-    }
-    if (body.city) {
-        account.city = body.city;
-    }
-    return res.json(account);
+router.put("/:id", (req, res) => {
+    if (!ObjectID.isValid(req.params.id))
+        return res.status(400).send("ID unknow : " + req.params.id)
+    
+    const updateRecord = {
+        address: req.body.address,
+        age: req.body.age,
+        city: req.body.city,
+        firstName: req.body.firstName,
+        hobbie: req.body.hobbie,
+        lastName: req.body.lastName,
+        sex: req.body.sex,
+    };
+    UsersModel.findByIdAndUpdate(
+        req.params.id,
+        { $set: updateRecord },
+        { new: true },
+        (err, docs) => {
+            if (!err) {
+                res.send(docs);
+            } else {
+                console.log("Error on user update : " + err);
+            }
+        }) 
 });
 
-router.delete('/accounts/:id', (req, res) => {
-    const id = req.params.id;
-    const account = db[id];
-
-    if (!account) {
-        return res
-            .status(404)
-            .json({ error: 'id not found' });
-    }
-
-    delete db[id];
-
-    return res.sendStatus(204);
-
-}); */
+router.delete("/:id", (req, res) => {
+    if (!ObjectID.isValid(req.params.id))
+        return res.status(400).send("ID unknow : " + req.params.id)
+    
+    UsersModel.findByIdAndRemove(
+        req.params.id,
+        (err, docs) => {
+            if (!err) {
+                res.send(docs);
+            } else {
+                console.log("Error on user creation : " + err);
+            }
+        })
+});
 
 module.exports = router;
+

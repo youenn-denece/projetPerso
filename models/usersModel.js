@@ -3,10 +3,6 @@ const mongoose = require("mongoose");
 const UsersModel = mongoose.model(
     "projetPerso",
     {
-        id: {
-            type: String,
-            required: true
-        },
         address: {
             type: String,
             required: false
@@ -35,9 +31,7 @@ const UsersModel = mongoose.model(
             type: String,
             required: true
         }
-
     },
     "users"
 );
-
 module.exports = { UsersModel };
