@@ -15,14 +15,15 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
+    const body = req.body;
     const newRecord = new UsersModel({
-        address: req.body.address,
-        age: req.body.age,
-        city: req.body.city,
+        address: body.address,
+        age: body.age,
+        city: body.city,
         firstName: body.firstName,
-        hobbie: req.body.hobbie,
-        lastName: req.body.lastName,
-        sex: req.body.sex,
+        hobbie: body.hobbie,
+        lastName: body.lastName,
+        sex: body.sex,
     });
     newRecord.save((err, docs) => {
         if (!err) {

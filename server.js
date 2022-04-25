@@ -2,12 +2,11 @@ const express = require('express');
 const cors = require('cors');
 require('./models/dbConfigs');
 const bodyParser = require('body-parser');
-const package = require('./package.json');
 const usersRoutes = require('./routes/usersController');
 const mongoose = require('mongoose');
 
 const port = process.env.PORT || 5000;
-// const apiRoot = '/api';
+
 
 const app = express();
 app.use('/users', usersRoutes);
