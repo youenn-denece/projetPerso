@@ -5,6 +5,7 @@ const ObjectID = require('mongoose').Types.ObjectId;
 const { UsersModel } = require('../models/usersModel');
 
 router.get('/', (req, res) => {
+    console.log("get method", UsersModel());
     UsersModel.find((err, docs) => {
         if (!err) {
             res.send(docs);
@@ -15,6 +16,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
+    console.log("post method", UsersModel());
     const body = req.body;
     const newRecord = new UsersModel({
         address: body.address,
@@ -32,9 +34,11 @@ router.post('/', (req, res) => {
             console.log("Error on user creation : " + err);
         }
     })
+    
 });
 
 router.put("/:id", (req, res) => {
+    console.log("put method");
     if (!ObjectID.isValid(req.params.id))
         return res.status(400).send("ID unknow : " + req.params.id)
     
@@ -61,6 +65,7 @@ router.put("/:id", (req, res) => {
 });
 
 router.delete("/:id", (req, res) => {
+    console.log("delete method");
     if (!ObjectID.isValid(req.params.id))
         return res.status(400).send("ID unknow : " + req.params.id)
     
