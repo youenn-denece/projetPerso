@@ -3,16 +3,15 @@ const cors = require('cors');
 require('./models/dbConfigs');
 const bodyParser = require('body-parser');
 const usersRoutes = require('./routes/usersController');
-const mongoose = require('mongoose');
 
 const port = process.env.PORT || 5000;
 
 
 const app = express();
-app.use('/users', usersRoutes);
-app.use(bodyParser.json());
-app.use(cors);
 
+app.use(bodyParser.json());
+app.use(cors());
+app.use('/users', usersRoutes);
 
 /* app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({

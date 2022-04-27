@@ -4,8 +4,8 @@ const ObjectID = require('mongoose').Types.ObjectId;
 
 const { UsersModel } = require('../models/usersModel');
 
+
 router.get('/', (req, res) => {
-    console.log("get method", UsersModel());
     UsersModel.find((err, docs) => {
         if (!err) {
             res.send(docs);
@@ -16,7 +16,6 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    console.log("post method", UsersModel());
     const body = req.body;
     const newRecord = new UsersModel({
         address: body.address,
@@ -38,18 +37,18 @@ router.post('/', (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
-    console.log("put method");
+    const body = req.body;
     if (!ObjectID.isValid(req.params.id))
         return res.status(400).send("ID unknow : " + req.params.id)
     
     const updateRecord = {
-        address: req.body.address,
-        age: req.body.age,
-        city: req.body.city,
-        firstName: req.body.firstName,
-        hobbie: req.body.hobbie,
-        lastName: req.body.lastName,
-        sex: req.body.sex,
+        address: body.address,
+        age: body.age,
+        city: body.city,
+        firstName: body.firstName,
+        hobbie: body.hobbie,
+        lastName: body.lastName,
+        sex:  body.sex,
     };
     UsersModel.findByIdAndUpdate(
         req.params.id,
@@ -65,7 +64,6 @@ router.put("/:id", (req, res) => {
 });
 
 router.delete("/:id", (req, res) => {
-    console.log("delete method");
     if (!ObjectID.isValid(req.params.id))
         return res.status(400).send("ID unknow : " + req.params.id)
     
@@ -75,7 +73,7 @@ router.delete("/:id", (req, res) => {
             if (!err) {
                 res.send(docs);
             } else {
-                console.log("Error on user creation : " + err);
+                console.log("Error on user delete : " + err);
             }
         })
 });
